@@ -87,3 +87,4 @@ for the community to fill in some important gaps, however:
 ### License
 
 MIT
+# rcs-ai-journal
