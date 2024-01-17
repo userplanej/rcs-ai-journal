@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
 
   if (!process.env.CRON_SECRET && process.env.NODE_ENV !== "development") {
     return Response.json(
-      { success: false, message: "Cron validation failed" },
+      { success: false, message: "Cron Validation Failed" },
       { status: 500 }
     );
   }
