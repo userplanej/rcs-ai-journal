@@ -30,7 +30,7 @@ export default function HNLayout({ children }: { children: React.ReactNode }) {
           <div className="flex flex-col md:flex-row items-start md:items-center">
             <Link prefetch={true} href="/" className="mr-3">
               <h1 className="text-base font-bold leading-tight whitespace-nowrap">
-                Next AI News
+                Designer's-GPT AI 뉴스
               </h1>
             </Link>
             <nav>
