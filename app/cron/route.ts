@@ -13,12 +13,42 @@ import {
 import { sql } from "drizzle-orm";
 
 export const maxDuration = 60; // maximum velue for hobby plan
-//export const maxDuration = 120;
 
 const ai = new OpenAI({
   baseURL: "https://api.endpoints.anyscale.com/v1",
   apiKey: process.env.ANYSCALE_API_KEY,
 });
+
+
+async function complete(prompt: string, functions: ZodFunctionDef[]) {
+  const completions = await ai.chat.completions.create({
+    model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+    // model: "accounts/fireworks/models/fw-function-call-34b-v0",
+    // model: "gpt-3.5-turbo-1106",
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a helpful assistant that writes creative HN (Hacker News) story titles",
+      },
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
+    tools: functions.map(toTool),
+    temperature: 1,
+    tool_choice: "auto",
+  });
+
+  if (!completions?.choices[0]?.message?.tool_calls?.length) {
+    return [];
+  }
+
+  return JSON.parse(
+    completions.choices[0].message.tool_calls[0].function.arguments
+  );
+}
 
 const StorySchema = z.object({
   title: z
@@ -51,6 +81,8 @@ const CommentsSchema = z.array(
 
 type Comments = z.infer<typeof CommentsSchema>;
 
+
+
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
 
@@ -68,19 +100,20 @@ export async function GET(request: NextRequest) {
     return Response.json({ success: false }, { status: 401 });
   }
 
+
   const { stories }: { stories: Stories } = await complete(
     `give me 5 hacker news (HN) stories. 
 
-Follow the following instructions accurately:
+      Follow the following instructions accurately:
 
-- Make the titles as realistic as possible.
-- If the story is in the first person and showing some work, prefix it with Show HN:
-- If the story is a question, prefix it with Ask HN:
-- If the story is about hiring, use the HN format for example '{Company} (YC {Season}) is hiring {Role}'. Replace the {} variables with creative values
-- Most titles should not be in the first person, and should not be prefixed.
-- NEVER include a prefix like "Prefix:" for jobs and hiring titles
-- Only include at most 1 show, 1 ask and 1 hiring title
-`,
+      - Make the titles as realistic as possible.
+      - If the story is in the first person and showing some work, prefix it with Show HN:
+      - If the story is a question, prefix it with Ask HN:
+      - If the story is about hiring, use the HN format for example '{Company} (YC {Season}) is hiring {Role}'. Replace the {} variables with creative values
+      - Most titles should not be in the first person, and should not be prefixed.
+      - NEVER include a prefix like "Prefix:" for jobs and hiring titles
+      - Only include at most 1 show, 1 ask and 1 hiring title
+      `,
     [
       {
         name: "get_stories",
@@ -146,6 +179,8 @@ Follow the following instructions accurately:
           ]
         );
 
+        console.log(`Generated ${comments.length} comments for story ${story.title}`);
+        
         // skip comments with a repeated id
         const uniqueComments = comments.filter(
           (comment, index, self) =>
@@ -200,35 +235,6 @@ Follow the following instructions accurately:
   return Response.json({ success: true });
 }
 
-async function complete(prompt: string, functions: ZodFunctionDef[]) {
-  const completions = await ai.chat.completions.create({
-    model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
-    // model: "accounts/fireworks/models/fw-function-call-34b-v0",
-    // model: "gpt-3.5-turbo-1106",
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are a helpful assistant that writes creative HN (Hacker News) story titles",
-      },
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-    tools: functions.map(toTool),
-    temperature: 1,
-    tool_choice: "auto",
-  });
-
-  if (!completions?.choices[0]?.message?.tool_calls?.length) {
-    return [];
-  }
-
-  return JSON.parse(
-    completions.choices[0].message.tool_calls[0].function.arguments
-  );
-}
 
 function isValidDomain(domain: string) {
   const parsed = psl.parse(domain);

@@ -17,6 +17,10 @@ export default {
       destination: "/?type=ask",
     },
     {
+      source: "/story",
+      destination: "/?type=story",
+    },
+    {
       source: "/show",
       destination: "/?type=show",
     },

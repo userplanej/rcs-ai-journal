@@ -20,97 +20,73 @@ export const metadata = {
 export default function HNLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="md:px-20 md:py-2 flex flex-col h-screen text-[15px] leading-[18px]">
-      <header className="flex items-center justify-between py-2 md:py-1 px-1 pr-2 bg-[#FF9966] text-sm gap-2">
+      <header className="flex items-center justify-between py-2 md:py-1 px-1 pr-2 bg-yellow-200 text-sm gap-2">
         <div className="flex items-center">
           <Link prefetch={true} href="/">
-            <span className="border border-white p-1 mr-2 text-white w-6 h-6 flex-shrink-0 flex items-center justify-center">
-              <span>N</span>
+            <span className="border border-white p-1 mr-2  w-6 h-6 flex-shrink-0 flex items-center justify-center">
+              <span>U</span>
             </span>
           </Link>
           <div className="flex flex-col md:flex-row items-start md:items-center">
             <Link prefetch={true} href="/" className="mr-3">
               <h1 className="text-base font-bold leading-tight whitespace-nowrap">
-                Designer&apos;sGPT AI 뉴스
+                인공지능이 만든 뉴스
               </h1>
             </Link>
             <nav>
               <ul className="inline-flex leading-tight tracking-tight flex-wrap">
-                <li>
-                  <Link
-                    prefetch={true}
-                    className="hover:underline"
-                    href="/newest"
-                  >
-                    new
-                  </Link>
-                </li>
-                <li className="px-1">|</li>
-                <li>
-                  <Suspense
-                    fallback={
-                      <Link
-                        prefetch={true}
-                        className="hover:underline"
-                        href="/login/next/threads"
-                      >
-                        threads
-                      </Link>
-                    }
-                  >
-                    <ThreadsLink />
-                  </Suspense>
-                </li>
-                <li className="px-1">|</li>
+               
+               
                 <li>
                   <Link
                     prefetch={true}
                     className="hover:underline"
                     href="/newcomments"
                   >
-                    comments
+                    새로운 답글
                   </Link>
                 </li>
-                <li className="px-1">|</li>
+                <li className="px-2">|</li>
                 <li>
                   <Link
                     prefetch={true}
                     className="hover:underline"
                     href="/show"
                   >
-                    show
+                    제품소개
                   </Link>
                 </li>
-                <li className="px-1">|</li>
+                <li className="px-2">|</li>
+                <li>
+                  <Link prefetch={true} className="hover:underline" href="/story">
+                    흥미로운 이야기
+                  </Link>
+                </li>
+                <li className="px-2">|</li>
                 <li>
                   <Link prefetch={true} className="hover:underline" href="/ask">
-                    ask
+                    함께해요
                   </Link>
                 </li>
-                <li className="px-1">|</li>
+                <li className="px-2">|</li>
                 <li>
                   <Link
                     prefetch={true}
                     className="hover:underline"
                     href="/jobs"
                   >
-                    jobs
+                    구인구직
                   </Link>
                 </li>
-                <li className="px-1">|</li>
+                <li className="px-2">|</li>
                 <li>
-                  <Suspense
-                    fallback={
-                      <Link
-                        prefetch={true}
-                        className="hover:underline"
-                        href="/login/next/submit"
-                      >
-                        submit
-                      </Link>
-                    }
+                  <Link
+                    prefetch={true}
+                    className="hover:underline"
+                    href="/about"
                   >
-                    <SubmitLink />
-                  </Suspense>
+                    이 게시판에 대하여
+                  </Link>
                 </li>
               </ul>
             </nav>
