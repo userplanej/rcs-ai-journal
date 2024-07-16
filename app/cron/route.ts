@@ -12,7 +12,7 @@ import {
 } from "@/app/db";
 import { sql } from "drizzle-orm";
 
-export const maxDuration = 120; // maximum velue for hobby plan
+export const maxDuration = 60; // maximum velue for hobby plan
 //export const maxDuration = 120;
 
 const ai = new OpenAI({
