@@ -9,9 +9,9 @@ export default async function AboutPage() {
        
         <div className="flex flex-col gap-2">
         
-          <h1 className="text-2xl font-bold">About</h1>
+          <h1 className="text-2xl pb-4">이 샘플 Site에 대하여 </h1>
 
-          <p><span className="m-1">폴 그래이엄의 해커 뉴스 Site 를 Next.js 를 사용하여 복제한 것 입니다.</span></p>
+          <p><span className="m-1">이 Site는 폴 그래이엄의 해커 뉴스 Site (<a href="https://news.ycombinator.com/" target="_blank" rel="noopener noreferrer"> <u>https://news.ycombinator.com/</u> </a>) 를 Next.js 를 사용하여 복제한 것 입니다.</span></p>
           <p><span className="m-1">단 style 은 원래의 H/N site 를 그대로 가져왔지만 채워지는 내용은 LLM 에 의해 생성된 내용으로 채웠습니다 </span></p>
           <p><span className="m-1">cron 탭에 등록된 일정 시각에 Next.js 어플리케이션은 LLM -미스트랄 AI-에 새로운 기사와 함께 문맥에 어울리는 댓글을 생성하도록 요청을 합니다</span></p>
           <div className="w-full flex items-center md:justify-start  md:pl-10 py-10 pt-5 justify-center">
